@@ -16,15 +16,14 @@ export class GameComponent implements OnInit {
 
   verifyMove(div) {
     let path = "/get_move";
-    let obj = {};
-
     $("div").removeClass("highlighted");
     $("div > img").remove();
     const element = this.renderer2.selectRootElement("#" + div.id);
     $(element).addClass("highlighted");
     var img = document.createElement("img");
-    img.src = "./assets/img/knightBlack.gif";
+    img.src = "./assets/img/knightBlack.png";
     img.id = "picture";
+    img.style.cssText = "width:100%; height: 100%";
     var foo = document.getElementById(div.id);
     foo.appendChild(img);
 
@@ -36,6 +35,7 @@ export class GameComponent implements OnInit {
     this.execute(environment.URL_REST + path, config);
   }
 
+  //function to call the API
   execute(url, config): Promise<any> {
     let values: any;
     $("div").removeClass("possibleMove");
@@ -44,8 +44,6 @@ export class GameComponent implements OnInit {
       .toPromise()
       .then(data => {
         values = JSON.parse(JSON.stringify(data));
-        console.log(values);
-        console.log(values.length);
         for (let index = 0; index < values.length; index++) {
           const moveTo = this.renderer2.selectRootElement("#" + values[index]);
           $(moveTo).addClass("possibleMove");
